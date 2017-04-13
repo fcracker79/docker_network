@@ -1,0 +1,36 @@
+version: '2'
+services:
+  spring_boot_jee:
+    build: /home/mypc/dev/java/spring_boot_tutorial/
+    ports:
+      - "8080:8080"
+# In bridge mode this is not allowed.
+#    links:
+#      - "pgsql:spring_boot_db"
+    networks:
+      - jee_db
+      - jee_elk
+
+  pgsql:
+    build: /home/mypc/dev/tools/docker/docker_network/postgres
+    volumes:
+      - /home/mypc/dev/tools/docker/docker_network/postgres/pgdata:/var/lib/postgresql/data/pgdata_volume
+    networks:
+      - jee_db
+
+  elk:
+    build: /home/mypc/dev/tools/docker/docker_network/elk
+    ports:
+        - "5601:5601"
+        - "9200:9200"
+        - "5044:5044"
+
+    networks:
+        - jee_elk
+
+networks:
+  jee_db:
+    driver: bridge
+  jee_elk:
+    driver: bridge
+
