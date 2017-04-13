@@ -21,7 +21,30 @@ services:
   logstash:
     build: /home/mypc/dev/tools/docker/docker_network/logstash
     ports:
-        - "5044:5044"
+        - "5555:5555"
+    networks:
+        - elk
+  elasticsearch:
+    build: /home/mypc/dev/tools/docker/docker_network/elasticsearch
+    environment:
+      - cluster.name=docker-cluster
+      - bootstrap.memory_lock=true
+      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+      - xpack.security.enabled=false
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+      nofile:
+        soft: 65536
+        hard: 65536
+    mem_limit: 1g
+    cap_add:
+      - IPC_LOCK
+    volumes:
+      - esdata1:/usr/share/elasticsearch/data
+    ports:
+        - "9200:9200"
     networks:
         - elk
 
@@ -31,3 +54,6 @@ networks:
   elk:
     driver: bridge
 
+volumes:
+  esdata1:
+    driver: local
