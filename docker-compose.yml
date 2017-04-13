@@ -9,7 +9,7 @@ services:
 #      - "pgsql:spring_boot_db"
     networks:
       - jee_db
-      - jee_elk
+#      - jee_elk
 
   pgsql:
     build: /home/mypc/dev/tools/docker/docker_network/postgres
@@ -18,19 +18,16 @@ services:
     networks:
       - jee_db
 
-  elk:
-    build: /home/mypc/dev/tools/docker/docker_network/elk
+  logstash:
+    build: /home/mypc/dev/tools/docker/docker_network/logstash
     ports:
-        - "5601:5601"
-        - "9200:9200"
         - "5044:5044"
-
     networks:
-        - jee_elk
+        - elk
 
 networks:
   jee_db:
     driver: bridge
-  jee_elk:
+  elk:
     driver: bridge
 
