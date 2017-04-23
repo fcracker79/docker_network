@@ -5,5 +5,6 @@ COPY conf/input.conf usr/share/logstash/pipeline/
 COPY conf/output.conf usr/share/logstash/pipeline/
 COPY conf/logstash.key /usr/share/logstash/pki/tls/private
 COPY conf/logstash.crt /usr/share/logstash/pki/tls/certs
+# RUN logstash-plugin install logstash-input-log4j2
 # RUN echo "xpack.security.enabled=false" >> /usr/share/elasticsearch/config/elasticsearch.yml
 
